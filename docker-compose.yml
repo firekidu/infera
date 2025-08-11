@@ -20,7 +20,7 @@ services:
     environment:
       - PORT=7860
     ports:
-      - "7860:7860" # optional expose
+      - "7860:7860"
 
   api:
     build: ./apps/api
@@ -30,17 +30,14 @@ services:
     environment:
       - PORT=${PORT_API}
       - DATABASE_URL=${DATABASE_URL}
-      # OpenAI (optional)
       - OPENAI_API_KEY=${OPENAI_API_KEY}
       - OPENAI_BASE_URL=${OPENAI_BASE_URL}
       - OPENAI_MODEL=${OPENAI_MODEL}
-      # OpenRouter (optional)
       - OPENROUTER_API_KEY=${OPENROUTER_API_KEY}
       - OPENROUTER_BASE_URL=${OPENROUTER_BASE_URL}
       - OPENROUTER_MODEL=${OPENROUTER_MODEL}
       - OPENROUTER_HTTP_REFERER=${OPENROUTER_HTTP_REFERER}
       - OPENROUTER_TITLE=${OPENROUTER_TITLE}
-      # Ollama (fallback)
       - OLLAMA_BASE_URL=${OLLAMA_BASE_URL}
       - OLLAMA_MODEL=${OLLAMA_MODEL}
       - LANGFLOW_URL=${LANGFLOW_URL}
