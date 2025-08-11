@@ -5,10 +5,10 @@ async function getBlueprint(id: string) {
 }
 
 export default async function AppPage({ params }: any) {
-  const { id } = await params;
+  const { id } = params;
   const bp = await getBlueprint(id);
   return (
-    <main style={{maxWidth:1000,margin:'40px auto',fontFamily:'system-ui'}}>
+    <main style={{ maxWidth: 1000, margin: '40px auto', fontFamily: 'system-ui' }}>
       <a href="/">← Home</a>
       <h1>{bp.name}</h1>
       {/* @ts-expect-error Async Server Component children */}
@@ -17,6 +17,5 @@ export default async function AppPage({ params }: any) {
   );
 }
 
-// Workaround to import client components in RSC file
 import dynamic from 'next/dynamic';
 const Renderer = dynamic(() => import('../../components/Renderer'), { ssr: false });
