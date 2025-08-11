@@ -1,0 +1,15 @@
+{
+  "name": "infera-api",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "dependencies": {
+    "axios": "^1.7.2",
+    "express": "^4.19.2",
+    "pg": "^8.11.5",
+    "zod": "^3.23.8",
+    "cors": "^2.8.5"
+  }
+}
