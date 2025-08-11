@@ -1,0 +1,8 @@
+[phases.install]
+cmds = ["npm ci || npm i --no-audit --no-fund"]
+
+[phases.build]
+cmds = []
+
+[start]
+cmd = "node index.js"
