@@ -23,12 +23,14 @@ services:
       - "7860:7860"
 
   api:
-    build: ./apps/api
+    build:
+      context: ./apps/api
+      dockerfile: Dockerfile  # rename Dockerfile.txt → Dockerfile, or adjust this line if you keep Dockerfile.txt
     depends_on:
       postgres:
         condition: service_healthy
     environment:
-      - PORT=${PORT_API}
+      - PORT=${PORT_API}          # you’ll set PORT_API=3002 in Coolify
       - DATABASE_URL=${DATABASE_URL}
       - OPENAI_API_KEY=${OPENAI_API_KEY}
       - OPENAI_BASE_URL=${OPENAI_BASE_URL}
@@ -42,16 +44,16 @@ services:
       - OLLAMA_MODEL=${OLLAMA_MODEL}
       - LANGFLOW_URL=${LANGFLOW_URL}
     ports:
-      - "${PORT_API}:3002"
+      - "${PORT_API}:3002"        # host port → container port
 
   web:
     build: ./apps/web
     depends_on:
       - api
     environment:
-      - NEXT_PUBLIC_API_URL=${NEXT_PUBLIC_API_URL}
+      - NEXT_PUBLIC_API_URL=${NEXT_PUBLIC_API_URL}  # set this to http://api:3002
     ports:
-      - "${PORT_WEB}:3003"
+      - "${PORT_WEB}:3003"        # host port → container port
 
 volumes:
   db_data:
