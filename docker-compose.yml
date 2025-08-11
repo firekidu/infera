@@ -42,7 +42,7 @@ services:
       - OLLAMA_MODEL=${OLLAMA_MODEL}
       - LANGFLOW_URL=${LANGFLOW_URL}
     ports:
-      - "${PORT_API}:3001"
+      - "${PORT_API}:3002"
 
   web:
     build: ./apps/web
@@ -51,7 +51,7 @@ services:
     environment:
       - NEXT_PUBLIC_API_URL=${NEXT_PUBLIC_API_URL}
     ports:
-      - "${PORT_WEB}:3002"
+      - "${PORT_WEB}:3003"
 
 volumes:
   db_data:
