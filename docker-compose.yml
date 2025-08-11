@@ -51,7 +51,7 @@ services:
     environment:
       - NEXT_PUBLIC_API_URL=${NEXT_PUBLIC_API_URL}
     ports:
-      - "${PORT_WEB}:3000"
+      - "${PORT_WEB}:3002"
 
 volumes:
   db_data:
