@@ -1,20 +1,5 @@
 version: "3.9"
 services:
-  postgres:
-    image: postgres:16-alpine
-    environment:
-      POSTGRES_USER: ${POSTGRES_USER}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
-      POSTGRES_DB: ${POSTGRES_DB}
-    volumes:
-      - db_data:/var/lib/postgresql/data
-      - ./sql/init.sql:/docker-entrypoint-initdb.d/init.sql:ro
-    healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER}"]
-      interval: 5s
-      timeout: 3s
-      retries: 10
-
   langflow:
     image: ghcr.io/langflow-ai/langflow:latest
     environment:
@@ -26,12 +11,10 @@ services:
     build:
       context: ./apps/api
       dockerfile: Dockerfile  # rename Dockerfile.txt → Dockerfile, or adjust this line if you keep Dockerfile.txt
-    depends_on:
-      postgres:
-        condition: service_healthy
     environment:
       - PORT=${PORT_API}          # you’ll set PORT_API=3002 in Coolify
-      - DATABASE_URL=${DATABASE_URL}
+      - SUPABASE_URL=https://whxgflpvlbajudkhmgnq.supabase.co
+      - SUPABASE_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6IndoeGdmbHB2bGJhanVka2htZ25xIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTUwOTUzODIsImV4cCI6MjA3MDY3MTM4Mn0.8Tesgmv0pT8F1XijqaKx8vDqHyRWt7Fp5EWn-kvCLjI
       - OPENAI_API_KEY=${OPENAI_API_KEY}
       - OPENAI_BASE_URL=${OPENAI_BASE_URL}
       - OPENAI_MODEL=${OPENAI_MODEL}
@@ -54,6 +37,3 @@ services:
       - NEXT_PUBLIC_API_URL=${NEXT_PUBLIC_API_URL}  # set this to http://api:3002
     ports:
       - "${PORT_WEB}:3003"        # host port → container port
-
-volumes:
-  db_data:
