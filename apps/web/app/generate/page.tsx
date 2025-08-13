@@ -20,10 +20,10 @@ export default function Generate() {
   };
 
   return (
-    <main style={{maxWidth:720,margin:'40px auto',fontFamily:'system-ui'}}>
+    <main className="container">
       <h1>Describe your app</h1>
       <form onSubmit={onSubmit}>
-        <textarea value={prompt} onChange={e=>setPrompt(e.target.value)} rows={8} style={{width:'100%'}}/>
+        <textarea value={prompt} onChange={e=>setPrompt(e.target.value)} rows={8}/>
         <div style={{marginTop:12}}>
           <button disabled={loading} type="submit">{loading ? 'Generating…' : 'Generate'}</button>
         </div>
