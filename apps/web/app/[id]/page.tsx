@@ -11,11 +11,12 @@ export default async function AppPage({ params }: any) {
     <main style={{ maxWidth: 1000, margin: '40px auto', fontFamily: 'system-ui' }}>
       <a href="/">← Home</a>
       <h1>{bp.name}</h1>
-      {/* @ts-expect-error Async Server Component children */}
       <Renderer blueprintId={bp.id} spec={bp.spec} />
     </main>
   );
 }
 
 import dynamic from 'next/dynamic';
-const Renderer = dynamic(() => import('../../components/Renderer'), { ssr: false });
+// Corrected relative path: [id]/page.tsx is one level below the app root,
+// so components live at ../components/Renderer
+const Renderer = dynamic(() => import('../components/Renderer'), { ssr: false });

@@ -1,0 +1,11 @@
+# Node dependencies
+node_modules
+apps/api/node_modules
+apps/web/node_modules
+
+# Build outputs
+apps/web/.next
+
+# Lock files (not tracked)
+apps/api/package-lock.json
+apps/web/package-lock.json
