@@ -1,7 +1,10 @@
 version: "3.9"
 services:
   langflow:
-    image: ghcr.io/langflow-ai/langflow:latest
+    # Use the public Docker Hub image for Langflow instead of the GitHub
+    # Container Registry version, which requires authentication and caused
+    # deployment failures.
+    image: langflowai/langflow:latest
     environment:
       - PORT=7860
     ports:
