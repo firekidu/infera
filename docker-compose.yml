@@ -1,7 +1,8 @@
 version: "3.9"
 services:
   langflow:
-    image: ghcr.io/langflow-ai/langflow:latest
+    # Use the public Docker Hub image to avoid authentication issues with GHCR
+    image: langflowai/langflow:latest
     environment:
       - PORT=7860
     ports:
