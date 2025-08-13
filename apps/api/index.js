@@ -14,8 +14,13 @@ app.post('/api/generate', async (req, res) => {
     const { prompt } = req.body;
     if (!prompt) return res.status(400).json({ error: 'Missing prompt' });
     const bp = await generateBlueprint(prompt);
-    const r = await db.query('INSERT INTO blueprints (name, spec) VALUES ($1,$2) RETURNING id', [bp.name, bp]);
-    res.json({ id: r.rows[0].id, blueprint: bp });
+    const { data, error } = await db
+      .from('blueprints')
+      .insert({ name: bp.name, spec: bp })
+      .select('id')
+      .single();
+    if (error) throw error;
+    res.json({ id: data.id, blueprint: bp });
   } catch (e) {
     console.error(e);
     res.status(500).json({ error: 'Generation failed', detail: String(e.message || e) });
@@ -24,24 +29,39 @@ app.post('/api/generate', async (req, res) => {
 
 // Get blueprint
 app.get('/api/blueprints/:id', async (req, res) => {
-  const r = await db.query('SELECT id, name, spec FROM blueprints WHERE id=$1', [req.params.id]);
-  if (!r.rowCount) return res.status(404).json({ error: 'Not found' });
-  res.json(r.rows[0]);
+  const { data, error } = await db
+    .from('blueprints')
+    .select('id, name, spec')
+    .eq('id', req.params.id)
+    .single();
+  if (error) return res.status(404).json({ error: 'Not found' });
+  res.json(data);
 });
 
 // List documents for a collection
 app.get('/api/blueprints/:id/docs/:collection', async (req, res) => {
   const { id, collection } = req.params;
-  const r = await db.query('SELECT id, data, created_at, updated_at FROM documents WHERE blueprint_id=$1 AND collection=$2 ORDER BY created_at DESC', [id, collection]);
-  res.json(r.rows);
+  const { data, error } = await db
+    .from('documents')
+    .select('id, data, created_at, updated_at')
+    .eq('blueprint_id', id)
+    .eq('collection', collection)
+    .order('created_at', { ascending: false });
+  if (error) return res.status(500).json({ error: 'Query failed', detail: error.message });
+  res.json(data);
 });
 
 // Create a document
 app.post('/api/blueprints/:id/docs/:collection', async (req, res) => {
   const { id, collection } = req.params;
   const { data } = req.body;
-  const r = await db.query('INSERT INTO documents (blueprint_id, collection, data) VALUES ($1,$2,$3) RETURNING id', [id, collection, data]);
-  res.json({ id: r.rows[0].id });
+  const { data: inserted, error } = await db
+    .from('documents')
+    .insert({ blueprint_id: id, collection, data })
+    .select('id')
+    .single();
+  if (error) return res.status(500).json({ error: 'Insert failed', detail: error.message });
+  res.json({ id: inserted.id });
 });
 
 // Actions (webhook/email/langflow) – minimal demo
@@ -49,9 +69,13 @@ import axios from 'axios';
 app.post('/api/blueprints/:id/actions/:name', async (req, res) => {
   const { id, name } = req.params;
   const { payload } = req.body;
-  const br = await db.query('SELECT spec FROM blueprints WHERE id=$1', [id]);
-  if (!br.rowCount) return res.status(404).json({ error: 'Blueprint not found' });
-  const spec = br.rows[0].spec;
+  const { data: br, error } = await db
+    .from('blueprints')
+    .select('spec')
+    .eq('id', id)
+    .single();
+  if (error) return res.status(404).json({ error: 'Blueprint not found' });
+  const spec = br.spec;
   const action = (spec.actions || []).find(a => a.name === name);
   if (!action) return res.status(404).json({ error: 'Action not found' });
 
