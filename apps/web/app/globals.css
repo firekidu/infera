@@ -1,0 +1,84 @@
+/* Global styles for a dark theme inspired by bolt.new */
+body {
+  margin: 0;
+  background-color: #0c0c0c;
+  color: #fafafa;
+  font-family: 'Inter', sans-serif;
+  line-height: 1.5;
+}
+
+a {
+  color: #1488FC;
+  text-decoration: none;
+}
+
+.container {
+  max-width: 720px;
+  margin: 40px auto;
+  padding: 0 20px;
+}
+
+.wide {
+  max-width: 1000px;
+}
+
+button,
+.btn {
+  background: #1488FC;
+  color: #fff;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.btn {
+  display: inline-block;
+}
+
+input,
+textarea {
+  background: #1a1a1a;
+  color: #fafafa;
+  border: 1px solid #333;
+  border-radius: 4px;
+  padding: 8px;
+  width: 100%;
+}
+
+label {
+  display: block;
+  margin-bottom: 4px;
+}
+
+.field {
+  margin-bottom: 12px;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th,
+td {
+  border: 1px solid #333;
+  padding: 6px 8px;
+}
+
+.app-layout {
+  display: grid;
+  grid-template-columns: 200px 1fr;
+  gap: 20px;
+}
+
+.sidebar {
+  background: #1a1a1a;
+  padding: 16px;
+  border-radius: 8px;
+}
+
+.content h2 {
+  margin-top: 0;
+}
+

@@ -8,7 +8,7 @@ export default async function AppPage({ params }: any) {
   const { id } = params;
   const bp = await getBlueprint(id);
   return (
-    <main style={{ maxWidth: 1000, margin: '40px auto', fontFamily: 'system-ui' }}>
+    <main className="container wide">
       <a href="/">← Home</a>
       <h1>{bp.name}</h1>
       <Renderer blueprintId={bp.id} spec={bp.spec} />

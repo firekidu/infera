@@ -14,9 +14,9 @@ export default function Form({ blueprintId, collection, fields }: any) {
   return (
     <div>
       {fields.map((f: any) => (
-        <div key={f.name} style={{marginBottom:8}}>
-          <label>{f.name}</label><br/>
-          <input onChange={e=>onChange(f.name, e.target.value)} />
+        <div key={f.name} className="field">
+          <label>{f.name}</label>
+          <input onChange={e => onChange(f.name, e.target.value)} />
         </div>
       ))}
       <button onClick={submit}>Submit</button>

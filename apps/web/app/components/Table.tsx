@@ -8,7 +8,7 @@ export default function Table({ blueprintId, collection, fields }: any) {
       .then(r=>r.json()).then(setRows);
   }, [blueprintId, collection]);
   return (
-    <table border={1} cellPadding={6} cellSpacing={0}>
+    <table>
       <thead>
         <tr>
           {fields.map((f:any)=> <th key={f.name}>{f.name}</th>)}
