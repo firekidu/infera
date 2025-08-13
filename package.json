@@ -1,0 +1,7 @@
+{
+  "name": "infera",
+  "private": true,
+  "scripts": {
+    "build": "npm --prefix apps/web run build"
+  }
+}
